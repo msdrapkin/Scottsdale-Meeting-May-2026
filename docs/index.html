@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentation Portal | Route Repeater Finder</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        :root {
+            --bg: #ffffff;
+            --sidebar: #f8fafc;
+            --border: #e2e8f0;
+            --accent: #00ff88;
+            --text: #1e293b;
+            --text-light: #64748b;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #0f172a;
+                --sidebar: #1e293b;
+                --border: #334155;
+                --text: #f1f5f9;
+                --text-light: #94a3b8;
+            }
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        nav {
+            width: 300px;
+            background: var(--sidebar);
+            border-right: 1px solid var(--border);
+            padding: 2rem;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .logo { font-weight: 800; font-size: 0.9rem; letter-spacing: 1px; color: var(--text-light); text-transform: uppercase; }
+        .logo span { color: var(--accent); }
+
+        .nav-links { display: flex; flex-direction: column; gap: 0.5rem; }
+        .nav-item {
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+            color: var(--text);
+            text-decoration: none;
+            border: 1px solid transparent;
+        }
+        .nav-item:hover { background: rgba(0, 255, 136, 0.1); border-color: var(--accent); }
+        .nav-item.active { background: var(--accent); color: #000; font-weight: 700; }
+
+        main { flex: 1; padding: 4rem; max-width: 900px; margin: 0 auto; }
+
+        .content-area { animation: fadeIn 0.4s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Markdown Styling */
+        .content-area h1 { font-size: 2.5rem; font-weight: 800; margin-bottom: 2rem; border-bottom: 2px solid var(--accent); padding-bottom: 1rem; }
+        .content-area h2 { font-size: 1.5rem; margin: 2rem 0 1rem; color: var(--accent); }
+        .content-area p { margin-bottom: 1rem; }
+        .content-area ul { margin-bottom: 1.5rem; padding-left: 1.5rem; }
+        .content-area li { margin-bottom: 0.5rem; }
+        .content-area code { font-family: 'JetBrains Mono', monospace; background: rgba(0,0,0,0.1); padding: 0.2rem 0.4rem; border-radius: 4px; font-size: 0.9em; }
+        .content-area pre { background: #1e293b; color: #fff; padding: 1.5rem; border-radius: 12px; margin: 1.5rem 0; overflow-x: auto; }
+        
+        .print-btn {
+            margin-top: auto;
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-light);
+            padding: 0.75rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        .print-btn:hover { border-color: var(--text); color: var(--text); }
+
+        @media print {
+            nav { display: none; }
+            main { padding: 0; margin: 0; max-width: 100%; }
+            body { background: white; color: black; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo"><span>ANTIGRAVITY</span> DOCS</div>
+        <div class="nav-links">
+            <div class="nav-item active" onclick="showDoc('user_guide')">User Guide</div>
+            <div class="nav-item" onclick="showDoc('implementation_plan')">Implementation Plan</div>
+            <div class="nav-item" onclick="showDoc('educational_overview')">How it Works</div>
+            <div class="nav-item" onclick="showDoc('project_transcript')">Development Log</div>
+        </div>
+        <button class="print-btn" onclick="window.print()">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9V2h12v7M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2m-10 0v4h8v-4m-8-4h8"></path></svg>
+            Save as PDF
+        </button>
+    </nav>
+
+    <main>
+        <div id="content" class="content-area">Loading documentation...</div>
+    </main>
+
+    <script>
+        const docsData = {
+            user_guide: `# Route Repeater Finder: User Guide
+
+## 🚀 How to Run
+To ensure all features like **Auto-Fetch** work correctly, choose the method that fits your system:
+
+### Method A: One-Click (Recommended)
+1.  **Windows**: Double-click \`run_app.bat\`.
+2.  **Mac/Linux**: Run \`bash run_app.sh\` in your terminal.
+*This starts a tiny local server (requires Python or Node) and opens the app automatically.*
+
+### Method B: Zero-Setup (Offline/Serverless)
+If you prefer not to run any scripts, you can simply **double-click \`index.html\`**.
+- **Limitation**: The "Auto-Fetch" button will fail due to browser security restrictions on local files.
+- **Solution**: Click the **Download Icon** next to the Auto-Fetch button to save the database manually, then use the **Upload CSV** button to load it.
+
+## 📁 Programming your Radio (CHIRP)
+1.  Review the list in the **Repeaters Found** panel on the right.
+2.  Click **Generate CHIRP CSV**. A file named \`chirp_route.csv\` will download.
+3.  Open [CHIRP](https://chirp.danplanet.com/projects/chirp/wiki/Home).
+4.  Go to \`File > Import\`.
+5.  Select the \`chirp_route.csv\` file.
+6.  Upload the channels to your radio.
+
+## 🛠️ Frequently Asked Questions
+**Q: Why doesn't Auto-Fetch work?**
+A: Browsers block "fetches" for security when you open a file directly (\`file://\`). Use **Method A** above to bypass this.
+
+**Q: Can I use my own list?**
+A: Yes! Use the **Upload CSV** button to load any RepeaterBook export.
+
+---
+> [!TIP]
+> If you have a handheld radio (HT), use a **5-mile buffer**. If you have a high-gain mobile antenna on your vehicle, a **25-mile buffer** will help you find long-range repeaters.`,
+
+            implementation_plan: `# Implementation Plan: Route Repeater Finder (Final)
+
+A premium, self-contained HTML application for ham radio operators to plan their trips using entirely open-source tools.
+
+## 1. Core Objectives
+- **Keyless Operation**: Eliminate the need for paid API keys (Google Maps/Mapbox).
+- **Open Routing**: Use OSRM (Open Source Routing Machine) for path calculation.
+- **Automatic Data**: Integrate ARD (Amateur Repeater Directory) for zero-upload discovery.
+- **Export**: Generate a CHIRP-compatible CSV file for radio programming.
+- **Design**: A "Radio Operator" themed, responsive, and high-end UI.
+
+## 2. Technical Stack
+- **Frontend**: HTML5, Vanilla JavaScript (ES6+).
+- **Mapping**: Leaflet.js with CartoDB Dark Matter tiles.
+- **Geocoding**: Nominatim (OpenStreetMap) for location-to-coordinate conversion.
+- **Routing**: OSRM Project API.
+- **Data Source**: Amateur Repeater Directory (ARD) GitHub repository (JSON).
+
+## 3. UI/UX Design System
+- **Colors**:
+    - \`bg\`: #0a0c10 - Deep Tactical Navy
+    - \`accent\`: #00ff88 - Radio Green (Glow)
+    - \`surface\`: rgba(25, 30, 40, 0.85) - Blurred Glass Effect
+- **Layout**: 
+    - 400px fixed sidebar for controls.
+    - Full-screen interactive map.
+    - Floating, scrollable results panel in the top-right.
+
+## 4. Key Features
+### A. Route Planner
+- Search via Nominatim (handles cities, zip codes, and addresses).
+- Variable search buffer (5, 10, or 25 miles) from the route centerline.
+
+### B. Repeater Intelligence
+- **Auto-Fetch**: Asynchronously pulls the master ARD JSON database (~1MB).
+- **Filtering Algorithm**: 
+    - Optimized coordinate sampling (checks every 5th point of the route polyline).
+    - Haversine distance calculation for high precision.
+- **Unified Schema**: Normalizes diverse ARD records into a standard \`{Callsign, Frequency, Tone}\` object.
+
+### C. CHIRP Export
+- Generates a CSV with standard columns: Location, Name, Frequency, Duplex, Offset, Tone.
+
+## 5. Deployment
+- Single \`index.html\` file.
+- **Serverless Ready**: The app can be opened directly from your file system (\`file://\`), though "Auto-Fetch" may require a server depending on browser security settings. Manual CSV upload always works.`,
+
+            educational_overview: `# Educational Overview: How it Works
+
+This project was built to demonstrate how open-source geospatial tools can be combined into a single, keyless web application. Here is the logic behind the "Magic."
+
+## 1. Finding Locations (Geocoding)
+When you type "Phoenix, AZ," the app doesn't know where that is. We use the **Nominatim API** (from OpenStreetMap). It's a free service that converts text addresses into Latitude and Longitude coordinates.
+- **Why?** It's free, requires no API key, and is community-driven.
+
+## 2. Calculating the Route
+Once we have two coordinates, we send them to the **OSRM (Open Source Routing Machine)**.
+- **Request**: \`v1/driving/start_lon,start_lat;end_lon,end_lat\`
+- **Response**: A massive list of coordinates (a "Polyline") that represents the exact path of the roads.
+- **Display**: We use **Leaflet.js** to draw this line on the map.
+
+## 3. The "Along the Route" Math
+The hardest part is figuring out which repeaters are "near" the road.
+- **The Database**: We pull a JSON file containing ~30,000 repeaters across North America.
+- **The Filter**: For every repeater in the database, we check its distance against the route.
+- **Haversine Formula**: To calculate the distance between two points on a sphere (Earth), we use the Haversine formula:
+  \`\`\`javascript
+  const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+            Math.cos(lat1) * Math.cos(lat2) * 
+            Math.sin(dLon/2) * Math.sin(dLon/2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  const distance = R * c;
+  \`\`\`
+- **Optimization**: Checking 30,000 repeaters against 5,000 route points is slow ($30k \\times 5k = 150$ million checks!). We optimize this by only checking every 5th point on the route, which keeps the app snappy on mobile phones.
+
+## 4. Exporting to CHIRP
+CHIRP requires a very specific CSV format.
+- We map the ARD data (Callsign, Frequency, Tone) into the CSV columns CHIRP expects (\`Location, Name, Frequency, Duplex, Offset, Tone\`).
+- We use a **Blob** (Binary Large Object) in JavaScript to generate the file locally in your browser memory so you don't have to upload your data to any server.
+
+---
+*This tool was designed to be "Tactical"—meaning it is lightweight, fast, and uses zero trackers or paid services.*`,
+
+            project_transcript: `# Project Development Transcript: Scottsdale Meeting
+
+This transcript documents the collaborative process between the User and the AI Assistant in building the **Route Repeater Finder**. It serves as an educational log of how the project evolved from a concept to a fully functional, keyless application.
+
+---
+
+### 🟢 Session Start: The Vision
+**User:** 
+I want to take a trip. I will use my ham radio in my car. I need an app that is html only and self contained that can query my route and determine what ham repeaters are available on my route. I then will need to export that list into a file the chirp can use to program my radio. Is this something you can help with and what suggestions do you have?
+
+**Assistant:** 
+I can definitely help with that. I suggest a "Tactical Trip Planner" aesthetic—dark mode, high contrast, and very functional. We'll use Google Maps for routing and build a custom logic to filter repeater databases (like RepeaterBook) based on proximity to your route. I'll generate a CHIRP-compatible CSV directly in the browser.
+
+---
+
+### 🟢 Requirement: Removing Barriers (Keyless Map)
+**User:** 
+Do i really need a google api key or can you use a public map system?
+
+**Assistant:** 
+Great point! We can use **Leaflet.js** for the map and **OSRM (Open Source Routing Machine)** for the route calculations. This makes the app completely "Keyless" and free to use without any setup. I've updated the code to use these open-source tools while keeping the tactical design.
+
+---
+
+### 🟢 Requirement: Data Automation (Auto-Fetch)
+**User:** 
+Can you pull the repeater data without me uploading anything?
+
+**Assistant:** 
+Yes. I've integrated an **Auto-Fetch** feature that pulls the **Amateur Repeater Directory (ARD)** master list directly from GitHub. This creates a "Zero-Setup" experience—no API keys, no file uploads. Just open and go.
+
+---
+
+### 🟢 Troubleshooting: Browser Security & Local Server
+**User:** 
+[User encounters a "Fetch Error" when opening the file via file://] Can you run the server for me?
+
+**Assistant:** 
+Modern browsers block local files from fetching external data for security. I've started a local development server for you at \`http://localhost:8000\`. This allows the Auto-Fetch feature to work correctly.
+
+---
+
+### 🟢 UX Refinement: Accessibility & Visibility
+**User:** 
+The found repeater list is not completely visible and therefore not useable. Also make it scrollable.
+
+**Assistant:** 
+I've redesigned the results panel. It now has a dynamic height that fills the screen, a pinned header, and "Radio Green" tactical scrollbars. It's now positioned in the top-right to stay clear of your input settings.
+
+**User:** 
+Don't block the + and - map zoom buttons.
+
+**Assistant:** 
+Understood. I've moved the Leaflet zoom controls to the **top-left** corner so they are no longer obscured by the results panel.
+
+---
+
+### 🟢 Documentation: Educational Preservation
+**User:** 
+Let's save this context and conversation.... this is for educational purposes to share as we send around the html file to members so make sure we save the implementation plans too.
+
+**Assistant:** 
+I've generated a full documentation suite in the \`docs/\` folder:
+- **Implementation Plan**: The technical architecture.
+- **User Guide**: How to operate the tool.
+- **Educational Overview**: The math (Haversine distance) and logic behind the app.
+
+---
+
+### 🟢 Final Polishing: The "Serverless" Portal
+**User:** 
+Can we make this so a server isn't needed and a user can just open this in a local browser?
+
+**Assistant:** 
+I've upgraded the Documentation Portal (\`docs/index.html\`) to be **completely serverless**. All the markdown files are now inlined into the HTML. This means you can just double-click the file and it works instantly, bypassing all CORS restrictions.
+
+---
+
+### 🟢 The Final Request: The Development Log
+**User:** 
+Since this is an educational project... can we produce an artifact in the doc that shows all the actual prompt and response flows we've had in creating all this?
+
+---
+
+### 🟢 Requirement: Cross-Platform Portability
+**User:** 
+I need instructions on how to get the route planner to run without requiring a local web service running. OR, if it's now a requirement to have a local service running, can we produce a method for an average user to make this work on their system.
+
+**Assistant:** 
+I've implemented a "Dual-Path" solution to ensure anyone can use the tool:
+1. **One-Click Launchers**: I created \`run_app.bat\` (Windows) and \`run_app.sh\` (Mac/Linux) scripts. These automatically find Python or Node on the user's system and launch a local server for them.
+2. **Enhanced Serverless Mode**: For those who don't want to run a server, I added a direct manual download link in the UI and improved the error messages to explain how to use the "Manual Upload" fallback when opening the file via \`file://\`.
+3. **Updated Docs**: All instructions are now integrated into the premium documentation portal.
+
+---
+
+### 🟢 Educational Value: The Project Transcript
+**User:** 
+Make sure we also update the project transcript with our latest conversation.
+
+**Assistant:** 
+(Current Step) I'm updating this transcript now to show how we solved the final portability challenges, making the app truly accessible to every member of your radio club!`
+
+        };
+
+        function showDoc(key) {
+            // Update active state
+            document.querySelectorAll('.nav-item').forEach(item => {
+                const onclickAttr = item.getAttribute('onclick');
+                if (onclickAttr && onclickAttr.includes(key)) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+
+            const md = docsData[key];
+            document.getElementById('content').innerHTML = marked.parse(md);
+            
+            // Update URL hash for sharing
+            window.location.hash = key;
+        }
+
+        // Handle initial load from hash or default
+        window.onload = () => {
+            const hash = window.location.hash.substring(1);
+            if (hash && docsData[hash]) {
+                showDoc(hash);
+            } else {
+                showDoc('user_guide');
+            }
+        };
+    </script>
+</body>
+</html>

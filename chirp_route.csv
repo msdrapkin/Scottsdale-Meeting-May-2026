@@ -1,0 +1,3 @@
+Location,Name,Frequency,Duplex,Offset,Tone,rToneFreq,cToneFreq,DtcsCode,DtcsPolarity,Mode,TStep,Comment
+1,W7ARA,147.060,+,0.6,None,88.5,88.5,023,NN,FM,5.00,Phoenix, AZ
+2,K7UGA,449.125,-,5,None,88.5,88.5,023,NN,FM,5.00,Scottsdale, AZ
