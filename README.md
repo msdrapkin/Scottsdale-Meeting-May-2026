@@ -9,16 +9,19 @@
 > This is an educational and community-driven project. We encourage other hams and developers to fork, contribute, and improve this tool. Whether it's adding new data filters, improving the UI, or optimizing the routing logic, your contributions are welcome! Let’s build something great for the ham community together.
 
 A high-performance, keyless, and serverless web application designed to help ham radio operators identify available repeaters along a specific driving route. Optimized for portability, visual clarity, and offline-readiness.
+# Scottsdale ARC / Travel Planner 📡🚗
+
+A high-performance web application designed for the **Scottsdale Amateur Radio Club** to help operators find and export repeater information for any travel route.
 
 ![Mockup](https://raw.githubusercontent.com/msdrapkin/Scottsdale-Meeting-May-2026/master/docs/assets/mockup.png)
 
 ## 🚀 Key Features
-- **Keyless Mapping**: Uses Leaflet.js and OpenStreetMap (no API keys required).
-- **Intelligent Routing**: Integrated OSRM (Open Source Routing Machine) for precise path calculation.
-- **Auto-Fetch Intelligence**: Asynchronously pulls the latest Master Amateur Repeater Directory (ARD) database.
-- **Dynamic Filtering**: Samples route geometry to find repeaters within a custom buffer zone (miles).
-- **CHIRP Ready**: Export filtered results directly to a CSV format compatible with CHIRP radio programming software.
-- **Multi-Platform Launchers**: Includes `.bat` and `.sh` scripts for one-click hosting on Windows, Mac, and Linux.
+
+*   **50-Mile Range Awareness**: Support for a massive 50-mile search radius, perfect for rural Arizona travel.
+*   **Band Filtering**: Narrow down results by frequency (2m, 1.25m, 70cm) to match your equipment.
+*   **Mountain Top Intelligence**: Automatically identifies high-elevation repeaters (indicated with 🏔️) for superior line-of-sight coverage.
+*   **CHIRP Ready**: Export filtered lists directly to a CHIRP-compatible CSV for easy radio programming.
+*   **Master Sync**: Auto-fetches the latest 30,000+ repeater entries from the ARD Open Database. Windows, Mac, and Linux.
 
 ## 🛠️ Technology Stack
 - **Frontend**: Vanilla JavaScript (ES6+), HTML5, CSS3.
