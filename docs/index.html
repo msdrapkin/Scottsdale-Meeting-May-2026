@@ -382,7 +382,24 @@ Let's sync with GitHub and update the project transcript and doc as needed.
             });
 
             const md = docsData[key];
-            document.getElementById('content').innerHTML = marked.parse(md);
+            const contentDiv = document.getElementById('content');
+            
+            try {
+                if (typeof marked !== 'undefined') {
+                    contentDiv.innerHTML = marked.parse(md);
+                } else {
+                    throw new Error('Marked library not loaded');
+                }
+            } catch (e) {
+                console.warn('Markdown formatter failed, showing raw text:', e);
+                // Simple fallback: replace # with h1/h2 and show as pre-formatted text
+                contentDiv.innerHTML = `
+                    <div style="background: rgba(255,150,0,0.1); border: 1px solid orange; padding: 1rem; border-radius: 8px; margin-bottom: 2rem; font-size: 0.8rem;">
+                        <strong>⚠️ Offline/Security Mode:</strong> The visual formatter couldn't load. Showing raw documentation below.
+                    </div>
+                    <pre style="white-space: pre-wrap; font-family: inherit; font-size: 0.9rem;">${md}</pre>
+                `;
+            }
             
             // Update URL hash for sharing
             window.location.hash = key;
