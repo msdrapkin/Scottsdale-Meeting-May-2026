@@ -458,13 +458,13 @@
                     const loc = item.location || {};
                     return {
                         Callsign: item.callsign || item.Callsign || 'N/A',
-                        Frequency: item.frequency || item.Frequency || '0.00',
+                        Frequency: item.outputFrequency || item.frequency || item.Frequency || '0.00',
                         Offset: item.offset || item.Offset || '0.0',
-                        PL: item.tone || item.PL || item.Ctcss || '',
-                        Lat: loc.lat || item.Lat || 0,
-                        Long: loc.lng || item.Long || 0,
-                        Location: loc.city || loc.county || item.Location || 'Unknown',
-                        State: loc.state || item.State || ''
+                        PL: item.ctcssTx || item.tone || item.PL || item.Ctcss || '',
+                        Lat: item.latitude || loc.lat || item.Lat || 0,
+                        Long: item.longitude || loc.lng || item.Long || 0,
+                        Location: item.nearestCity || loc.city || loc.county || item.Location || 'Unknown',
+                        State: item.state || loc.state || item.State || ''
                     };
                 });
 
@@ -500,10 +500,11 @@
             const headers = "Location,Name,Frequency,Duplex,Offset,Tone,rToneFreq,cToneFreq,DtcsCode,DtcsPolarity,Mode,TStep,Comment";
             let csv = headers + "\n";
             filteredRepeaters.forEach((rep, i) => {
-                const duplex = rep.Offset === '0.00' ? '' : (parseFloat(rep.Offset) > 0 ? '+' : '-');
+                const duplex = rep.Offset === '0.00' || rep.Offset === 0 ? '' : (parseFloat(rep.Offset) > 0 ? '+' : '-');
+                const hasTone = rep.PL && rep.PL !== 'None' && rep.PL !== '';
                 const row = [
                     i+1, (rep.Callsign || 'REP').slice(0,10), rep.Frequency, duplex, 
-                    Math.abs(parseFloat(rep.Offset||0.6)), rep.PL?'Tone':'None', 
+                    Math.abs(parseFloat(rep.Offset||0.6)), hasTone ? 'Tone' : 'None', 
                     rep.PL||'88.5', rep.PL||'88.5', '023', 'NN', 'FM', '5.00', rep.Location
                 ];
                 csv += row.join(',') + "\n";
