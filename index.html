@@ -354,15 +354,17 @@
             filteredRepeaters = [];
 
             db.forEach(rep => {
-                const repFreq = parseFloat(rep.Frequency);
+                // Handle different field naming conventions (ARD vs Demo/RepeaterBook)
+                const repFreq = parseFloat(rep.outputFrequency || rep.Frequency || 0);
+                const repLat = parseFloat(rep.lat || rep.Lat || 0);
+                const repLon = parseFloat(rep.lng || rep.Long || 0);
                 
+                if (!repFreq || !repLat || !repLon) return;
+
                 // Band Filtering
                 if (band === '2m' && (repFreq < 144 || repFreq > 148)) return;
                 if (band === '70cm' && (repFreq < 420 || repFreq > 450)) return;
                 if (band === '1.25m' && (repFreq < 222 || repFreq > 225)) return;
-
-                const repLat = rep.lat || parseFloat(rep.Lat);
-                const repLon = rep.lng || parseFloat(rep.Long);
                 let minDist = Infinity;
 
                 // Optimization: Sample route every 5 points
