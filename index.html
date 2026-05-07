@@ -354,12 +354,17 @@
             filteredRepeaters = [];
 
             db.forEach(rep => {
-                // Handle different field naming conventions (ARD vs Demo/RepeaterBook)
-                const repFreq = parseFloat(rep.outputFrequency || rep.Frequency || 0);
-                const repLat = parseFloat(rep.lat || rep.Lat || 0);
-                const repLon = parseFloat(rep.lng || rep.Long || 0);
+                // Handle multiple field naming conventions (Frequency, outputFrequency, etc.)
+                const freqStr = rep.outputFrequency || rep.Frequency || rep.frequency || "0";
+                const repFreq = parseFloat(freqStr);
                 
-                if (!repFreq || !repLat || !repLon) return;
+                const latVal = rep.latitude || rep.lat || rep.Lat || 0;
+                const lonVal = rep.longitude || rep.lng || rep.Long || 0;
+                
+                const repLat = parseFloat(latVal);
+                const repLon = parseFloat(lonVal);
+                
+                if (repFreq === 0 || repLat === 0 || repLon === 0) return;
 
                 // Band Filtering
                 if (band === '2m' && (repFreq < 144 || repFreq > 148)) return;
