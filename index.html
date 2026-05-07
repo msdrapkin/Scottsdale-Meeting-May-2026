@@ -223,6 +223,15 @@
                         <option value="50">50 Miles</option>
                     </select>
                 </div>
+                <div class="input-group">
+                    <label>Band Filter</label>
+                    <select id="band-input">
+                        <option value="all" selected>All Bands</option>
+                        <option value="2m">2 Meters (144-148 MHz)</option>
+                        <option value="70cm">70 Centimeters (420-450 MHz)</option>
+                        <option value="1.25m">1.25 Meters (222-225 MHz)</option>
+                    </select>
+                </div>
                 <button id="calculate-route">Calculate Route</button>
             </div>
 
@@ -340,10 +349,18 @@
 
         function filterRepeaters(routeGeoJson, bufferMiles) {
             const db = repeaterDatabase.length > 0 ? repeaterDatabase : demoData;
+            const band = document.getElementById('band-input').value;
             const coords = routeGeoJson.coordinates;
             filteredRepeaters = [];
 
             db.forEach(rep => {
+                const repFreq = parseFloat(rep.Frequency);
+                
+                // Band Filtering
+                if (band === '2m' && (repFreq < 144 || repFreq > 148)) return;
+                if (band === '70cm' && (repFreq < 420 || repFreq > 450)) return;
+                if (band === '1.25m' && (repFreq < 222 || repFreq > 225)) return;
+
                 const repLat = rep.lat || parseFloat(rep.Lat);
                 const repLon = rep.lng || parseFloat(rep.Long);
                 let minDist = Infinity;
