@@ -346,7 +346,7 @@ I've implemented a "Dual-Path" solution to ensure anyone can use the tool:
 In looking at the .csv output, I find that the tone mode and tone frequencies are incomplete. Does the imported data contain the details needed or are we improperly forming the csv?
 
 **Assistant:** 
-I found the issue—we were using legacy field names that didn't match the updated ARD database schema. I've corrected the mapping to target `ctcssTx` for PL tones and `outputFrequency` for precision. The CHIRP export now correctly flags the "Tone" mode and populates the frequency columns, ensuring your radio is programmed correctly for the repeaters on your path.
+I found the issue—we were using legacy field names that didn't match the updated ARD database schema. I've corrected the mapping to target \`ctcssTx\` for PL tones and \`outputFrequency\` for precision. The CHIRP export now correctly flags the "Tone" mode and populates the frequency columns, ensuring your radio is programmed correctly for the repeaters on your path.
 
 ---
 
