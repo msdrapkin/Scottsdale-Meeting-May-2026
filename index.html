@@ -358,7 +358,8 @@
         }
 
         function filterRepeaters(routeGeoJson, bufferMiles) {
-            const db = repeaterDatabase.length > 0 ? repeaterDatabase : demoData;
+            // Merge demo Arizona data with the synced database to fill in ARD gaps
+            const db = repeaterDatabase.length > 0 ? [...demoData, ...repeaterDatabase] : demoData;
             const band = document.getElementById('band-input').value;
             const coords = routeGeoJson.coordinates;
             filteredRepeaters = [];
@@ -407,8 +408,8 @@
             exportBtn.disabled = filteredRepeaters.length === 0;
 
             filteredRepeaters.forEach(rep => {
-                const repLat = rep.lat || parseFloat(rep.Lat);
-                const repLon = rep.lng || parseFloat(rep.Long);
+                const repLat = parseFloat(rep.latitude || rep.lat || rep.Lat || 0);
+                const repLon = parseFloat(rep.longitude || rep.lng || rep.Long || 0);
 
                 const item = document.createElement('div');
                 item.className = 'repeater-item';
