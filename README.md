@@ -1,6 +1,13 @@
 # 📡 Route Repeater Finder
 ### Tactical Trip Planner for Amateur Radio Operators
 
+> [!IMPORTANT]
+> **Status: Early Development (Beta)**
+> This project is currently a work in progress and is in its early stages of development. While the core functionality is stable, you may encounter minor bugs or edge cases. We are actively refining the features to make this the ultimate tactical tool for ham radio operators.
+>
+> **🌱 Join the Mission!**
+> This is an educational and community-driven project. We encourage other hams and developers to fork, contribute, and improve this tool. Whether it's adding new data filters, improving the UI, or optimizing the routing logic, your contributions are welcome! Let’s build something great for the ham community together.
+
 A high-performance, keyless, and serverless web application designed to help ham radio operators identify available repeaters along a specific driving route. Optimized for portability, visual clarity, and offline-readiness.
 
 ![Mockup](https://raw.githubusercontent.com/msdrapkin/Scottsdale-Meeting-May-2026/master/docs/assets/mockup.png)
