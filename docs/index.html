@@ -174,7 +174,9 @@ A premium, self-contained HTML application for ham radio operators to plan their
 ## 1. Core Objectives
 - **Keyless Operation**: Eliminate the need for paid API keys (Google Maps/Mapbox).
 - **Open Routing**: Use OSRM (Open Source Routing Machine) for path calculation.
-- **Automatic Data**: Integrate ARD (Amateur Repeater Directory) for zero-upload discovery.
+- **Manual Fallback**: Robust CSV/JSON upload for when Auto-Fetch is blocked or for custom data (like RepeaterBook).
+- **Source Selector**: Toggle between global ARD data and localized custom uploads.
+- **Mountain Intelligence**: Automatic detection and flagging of high-elevation tactical repeaters.
 - **Export**: Generate a CHIRP-compatible CSV file for radio programming.
 - **Design**: A "Radio Operator" themed, responsive, and high-end UI.
 
@@ -367,20 +369,24 @@ I've implemented two major upgrades for rural coverage:
 ---
 
 ### Phase 4: Optimization & Community Branding
-*   **Rural Coverage Expansion**: Added a **50-Mile** search radius option to the \`buffer-input\` dropdown to capture high-elevation, long-range repeaters in rural areas.
-*   **Mountain Top Awareness**: Implemented UI logic to automatically detect repeaters with elevations > 1,500m (~5,000 ft). High-altitude repeaters are now indicated with a 🏔️ icon and their elevation in meters.
-*   **Band Filtering System**: Added a multi-band selector (2m, 1.25m, 70cm) to handle the high density of repeaters found in urban centers like Phoenix and Tucson when using the full master database.
-*   **Professional Branding**: Updated the application header from "ANTIGRAVITY OPEN ROUTE" to **"SCOTTSDALE ARC / TRAVEL PLANNER"** to align with the club's identity.
-*   **Resilient Fallback**: Enhanced the documentation portal with a \`try-catch\` wrapper to ensure readability even when running from local \`file://\` protocols.
+*   **Rural Coverage Expansion**: Added a **50-Mile** search radius option to capture high-elevation, long-range repeaters in rural areas.
+*   **Mountain Top Awareness**: Implemented UI logic to automatically detect repeaters with elevations > 1,500m. High-altitude repeaters are now indicated with a 🏔️ icon.
+*   **Professional Branding**: Updated the application header to **"SCOTTSDALE ARC / TRAVEL PLANNER"**.
 
 ---
 
+### Phase 5: Arizona Data & Usability Fixes
+*   **Expanded Arizona Data**: Identified gaps in the ARD database for AZ and expanded the demo dataset with prominent tactical repeaters (Pinal Peak, Mt. Lemmon, White Tanks).
+*   **Source Selector**: Added a dropdown to toggle between ARD Auto-Fetch and Custom (RepeaterBook) uploads.
+*   **Direct Download**: Fixed the "Sync" button logic so it triggers an instant local download of the loaded database for offline portability.
+*   **Schema Resilience**: Enhanced the filtering engine to handle diverse JSON/CSV field names.
+
 ### 🏁 Final Handoff
 **User:** 
-Final confirmation on features and branding.
+Sync with github and I'll download to test.
 
 **Assistant:** 
-The project is complete and ready for the Scottsdale Amateur Radio Club. All branding is club-aligned, rural coverage is prioritized, and the system is fully portable. The source code is synchronized with GitHub and documentation is up to date.`
+The Scottsdale ARC Travel Planner is now robust, Arizona-aware, and ready for deployment. All files are synced and the documentation is updated for the Scottsdale meeting.`
 
 
         };

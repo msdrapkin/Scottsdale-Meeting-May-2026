@@ -237,21 +237,27 @@
 
             <div class="card">
                 <h3>Repeater Database</h3>
-                <p style="font-size: 0.7rem; color: var(--text-dim); margin-bottom: 0.5rem;">Load data automatically from the Open Source ARD Database (Requires local server).</p>
+                <div class="input-group">
+                    <label>Data Source</label>
+                    <select id="source-input" style="width: 100%; padding: 0.5rem; background: var(--surface); color: white; border: 1px solid var(--border); border-radius: 4px; margin-bottom: 0.5rem;">
+                        <option value="ard" selected>Master ARD (Open Source)</option>
+                        <option value="custom">Custom Upload / Manual</option>
+                    </select>
+                </div>
                 <div class="flex" style="gap: 0.5rem; margin-bottom: 1rem; display: flex;">
-                    <button id="auto-fetch" class="secondary" style="flex: 1">Auto-Fetch From ARD</button>
-                    <a href="https://github.com/nathanbreitsch/ARD-RepeaterList" target="_blank" class="secondary" style="padding: 0.5rem; text-decoration: none; display: flex; align-items: center; justify-content: center;" title="Download Manually">
-                        <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zM4.5 7.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5z"/></svg>
-                    </a>
+                    <button id="auto-fetch" class="secondary" style="flex: 1">Auto-Fetch ARD</button>
+                    <button id="download-db" class="secondary" style="padding: 0.5rem; display: flex; align-items: center; justify-content: center;" title="Save Database to File">
+                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                    </button>
                 </div>
                 <div id="fetch-progress" style="font-size: 0.65rem; color: var(--text-dim); margin-top: 0.5rem;" class="hidden">
-                    Downloading Database... <span id="progress-val">0%</span>
+                    Syncing: <span id="progress-val">0%</span>
                 </div>
                 
-                <div style="margin-top: 1rem; border-top: 1px solid var(--border); padding-top: 1rem;">
-                    <p style="font-size: 0.7rem; color: var(--text-dim); margin-bottom: 0.5rem;">Or upload your own RepeaterBook CSV:</p>
-                    <input type="file" id="csv-upload" accept=".csv" class="hidden">
-                    <button class="secondary" onclick="document.getElementById('csv-upload').click()" style="font-size: 0.8rem; padding: 0.5rem;">Upload CSV</button>
+                <div id="manual-upload" style="margin-top: 1rem; border-top: 1px solid var(--border); padding-top: 1rem;">
+                    <p style="font-size: 0.7rem; color: var(--text-dim); margin-bottom: 0.5rem;">Upload RepeaterBook CSV or JSON:</p>
+                    <input type="file" id="csv-upload" accept=".csv,.json" class="hidden">
+                    <button class="secondary" onclick="document.getElementById('csv-upload').click()" style="font-size: 0.8rem; padding: 0.5rem; width: 100%;">Upload File</button>
                 </div>
                 <div id="file-status" style="font-size: 0.7rem; color: var(--accent); margin-top: 0.5rem;">No database loaded</div>
             </div>
@@ -293,11 +299,12 @@
         
         // Demo Data (AZ/CA Region)
         const demoData = [
-            { Callsign: 'W7ARA', Frequency: '147.060', Offset: '+0.6', Tone: '162.2', Lat: '33.4484', Long: '-112.0740', Location: 'Phoenix, AZ' },
-            { Callsign: 'K7UGA', Frequency: '449.125', Offset: '-5.0', Tone: '100.0', Lat: '33.4942', Long: '-111.9261', Location: 'Scottsdale, AZ' },
-            { Callsign: 'W7MOT', Frequency: '146.940', Offset: '-0.6', Tone: '100.0', Lat: '33.3061', Long: '-111.8413', Location: 'Chandler, AZ' },
-            { Callsign: 'K7MTW', Frequency: '146.720', Offset: '-0.6', Tone: '162.2', Lat: '35.1983', Long: '-111.6513', Location: 'Flagstaff, AZ' },
-            { Callsign: 'W7PZ', Frequency: '147.160', Offset: '+0.6', Tone: '100.0', Lat: '34.5400', Long: '-112.4685', Location: 'Prescott, AZ' }
+            { Callsign: 'W7ARA', Frequency: '147.060', Offset: '+0.6', Tone: '162.2', Lat: '33.3444', Long: '-112.0000', Location: 'Phoenix, AZ', Elevation: 1100 },
+            { Callsign: 'K7UGA', Frequency: '449.125', Offset: '-5.0', Tone: '100.0', Lat: '33.5000', Long: '-111.9333', Location: 'Scottsdale, AZ', Elevation: 1200 },
+            { Callsign: 'W7MOT', Frequency: '146.940', Offset: '-0.6', Tone: '100.0', Lat: '33.3000', Long: '-111.8333', Location: 'Chandler, AZ', Elevation: 1150 },
+            { Callsign: 'MtLemmon', Frequency: '147.300', Offset: '+0.6', Tone: '110.9', Lat: '32.4433', Long: '-110.7883', Location: 'Mt. Lemmon, AZ', Elevation: 2791 },
+            { Callsign: 'PinalPeak', Frequency: '146.820', Offset: '-0.6', Tone: '100.0', Lat: '33.2811', Long: '-110.8211', Location: 'Pinal Peak, AZ', Elevation: 2390 },
+            { Callsign: 'WhiteTank', Frequency: '146.940', Offset: '-0.6', Tone: '162.2', Lat: '33.5850', Long: '-112.5517', Location: 'White Tank Mtn, AZ', Elevation: 1225 }
         ];
 
         // Initialize Map
@@ -462,6 +469,21 @@
             }
         });
 
+        // Download Database Local Fix
+        document.getElementById('download-db').addEventListener('click', () => {
+            const db = repeaterDatabase.length > 0 ? repeaterDatabase : demoData;
+            const dataStr = JSON.stringify(db, null, 2);
+            const blob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = repeaterDatabase.length > 0 ? 'repeater_database_synced.json' : 'demo_database.json';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        });
+
         // Auto-Fetch from ARD GitHub
         const autoFetchBtn = document.getElementById('auto-fetch');
         const fetchProgress = document.getElementById('fetch-progress');
@@ -470,6 +492,7 @@
 
         autoFetchBtn.addEventListener('click', async () => {
             autoFetchBtn.disabled = true;
+            autoFetchBtn.innerText = 'Syncing...';
             fetchProgress.classList.remove('hidden');
             progressVal.innerText = 'Initializing...';
             
