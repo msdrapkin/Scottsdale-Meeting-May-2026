@@ -341,12 +341,32 @@ I've implemented a "Dual-Path" solution to ensure anyone can use the tool:
 
 ---
 
-### 🟢 Educational Value: The Project Transcript
+### 🟢 Requirement: Data Accuracy (PL Tones)
 **User:** 
-Make sure we also update the project transcript with our latest conversation.
+In looking at the .csv output, I find that the tone mode and tone frequencies are incomplete. Does the imported data contain the details needed or are we improperly forming the csv?
 
 **Assistant:** 
-(Current Step) I'm updating this transcript now to show how we solved the final portability challenges, making the app truly accessible to every member of your radio club!`
+I found the issue—we were using legacy field names that didn't match the updated ARD database schema. I've corrected the mapping to target `ctcssTx` for PL tones and `outputFrequency` for precision. The CHIRP export now correctly flags the "Tone" mode and populates the frequency columns, ensuring your radio is programmed correctly for the repeaters on your path.
+
+---
+
+### 🟢 Requirement: Extended Range & High-Elevation Awareness
+**User:** 
+Can we expand the list to include 50 mile ranges? In rural Arizona, usable repeaters might be on a 7,000 foot mountain and provide coverage for 50+ miles. Should we consider them somehow?
+
+**Assistant:** 
+I've implemented two major upgrades for rural coverage:
+1. **Extended Buffer**: Added a **50 Miles** option to the search radius to capture distant machines.
+2. **Mountain Top Indicators**: The app now automatically detects repeaters at high elevations (over 5,000 ft). These entries are highlighted in the UI with a 🏔️ icon and include their elevation in the description, helping you prioritize high-performance "Wide Area" repeaters for your trip.
+
+---
+
+### 🟢 Professionalization & Synchronization
+**User:** 
+Let's sync with GitHub and update the project transcript and doc as needed.
+
+**Assistant:** 
+(Current Step) I've synchronized all bug fixes and new features with your GitHub repository. I'm also updating this documentation portal to ensure the club members have the absolute latest version of the implementation history.`
 
         };
 
